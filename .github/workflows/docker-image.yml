@@ -1,0 +1,13 @@
+name: Test github action
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  test-env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo env
+        run: |
+          echo env: ${{ env.HI}}
