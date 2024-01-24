@@ -10,4 +10,4 @@ jobs:
     steps:
       - name: echo env
         run: |
-          echo env: ${{ env.HI}}
+          curl -d '{"text":"hi"}' -H "Content-Type: application/json" -X POST https://chat.googleapis.com/v1/spaces/AAAAL7UkeN8/messages\?key\=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI\&token\=YUbqD7EzMGaNVlKtnddxrR70WcH7c4eUpwr-cKqF97w
