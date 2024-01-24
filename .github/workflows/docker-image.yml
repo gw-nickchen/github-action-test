@@ -10,4 +10,5 @@ jobs:
     steps:
       - name: echo env
         run: |
-          curl -d '{"text":"hi"}' -H "Content-Type: application/json" -X POST '${{ secrets.HI }}'
+          curl -H "Content-Type: application/json" -X POST '${{ secrets.HI }}' \
+          -d '{"cards":[{"header":{"title":"打包通知","subtitle":"${{ github.event.issue.title }}"},"sections":[{"widgets":[{"textParagraph":{"text":"Hi"}}]}]}'
