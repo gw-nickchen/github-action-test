@@ -10,4 +10,5 @@ jobs:
     steps:
       - name: echo env
         run: |
-          curl -H "Content-Type: application/json" -X POST '${{ secrets.HI }}' -d '{"cards":[{"header":{"title":"打包通知","subtitle":"1234"},"sections":[{"widgets":[{"textParagraph":{"text":"Hi"}}]}]}]}'
+          GIT_COMMIT=1234
+          curl -H "Content-Type: application/json" -X POST '${{ secrets.HI }}' -d '{"cards":[{"header":{"title":"打包通知","subtitle":"1234"},"sections":[{"widgets":[{"textParagraph":{"text":"'${GIT_COMMIT}'"}}]}]}]}'
