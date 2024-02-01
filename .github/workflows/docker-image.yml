@@ -11,4 +11,4 @@ jobs:
       - name: echo env
         run: |
           GIT_COMMIT=1234
-          curl -H "Content-Type: application/json" -X POST '${{ secrets.HI }}' -d '{"cards":[{"header":{"title":"打包通知","subtitle":"1234"},"sections":[{"widgets":[{"textParagraph":{"text":"'${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/${{github.event.head_commit.id}}/${{github.event.head_commit.message}}'"}}]}]}]}'
+          curl -H "Content-Type: application/json" -X POST '${{ secrets.HI }}' -d '{"cards":[{"header":{"title":"打包通知","subtitle":"1234"},"sections":[{"widgets":[{"textParagraph":{"text":"'${{github.event.commits.message}}'"}}]}]}]}'
