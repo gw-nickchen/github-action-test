@@ -11,4 +11,4 @@ jobs:
       - name: echo env
         run: |
           GIT_COMMIT=1234
-          curl -H "Content-Type: application/json" -X POST '${{ secrets.HI }}' -d '{\"text\":\"'${{github.event.head_commit.message}}'\"}}'
+          curl -H "Content-Type: application/json" -X POST '${{ secrets.HI }}' -d '{"text":"'${{github.event.head_commit.message}}'"}}'
