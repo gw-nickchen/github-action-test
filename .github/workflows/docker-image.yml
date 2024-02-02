@@ -10,4 +10,4 @@ jobs:
     steps:
       - name: echo env
         run: |
-          echo ${{ github.event.head_commit.message }}
+          curl -H "Content-Type: application/json" -X POST '${{ secrets.HI }}' -d '{"text":"'${{github.event.head_commit.id}}'"}}'
