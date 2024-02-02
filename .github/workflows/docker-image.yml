@@ -4,10 +4,14 @@ on:
   push:
     branches:
       - main
+env:
+  ClientImageName: "gw-bpsp-client-web"
+  AmdinImageName: "gw-bpsp-admin-web"
 jobs:
   test-env:
     runs-on: ubuntu-latest
     steps:
       - name: echo env
         run: |
-          curl -H "Content-Type: application/json" -X POST '${{ secrets.HI }}' -d '{"text":"${{github.event.head_commit.id}}"}'
+          GIT_COMMIT=1234
+          curl -H "Content-Type: application/json" -X POST '${{ secrets.HI }}' -d '{"cards":[{"header":{"title":"前台web打包通知","subtitle":"${{github.event.head_commit.message}}"},"sections":[{"widgets":[{"textParagraph":{"text":"*前台*: ${{env.ClientImageName}}:'${GIT_COMMIT}'"}},{"textParagraph":{"text":"*前台*: ${{env.AmdinImageName}}:'${GIT_COMMIT}'"}}]}]}]}'
