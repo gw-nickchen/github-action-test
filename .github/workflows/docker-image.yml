@@ -14,4 +14,4 @@ jobs:
       - name: echo env
         run: |
           GIT_COMMIT=1234
-          curl -H "Content-Type: application/json" -X POST '${{ secrets.HI }}' -d '{"cards":[{"header":{"title":"前台web打包通知","subtitle":"${{github.event.head_commit.message}}"},"sections":[{"widgets":[{"textParagraph":{"text":"*前台*: ${{env.ClientImageName}}:'${GIT_COMMIT}'"}},{"textParagraph":{"text":"*前台*: ${{env.AmdinImageName}}:'${GIT_COMMIT}'"}}]}]}]}'
+          curl -H "Content-Type: application/json" -X POST '${{ secrets.HI }}' -d '{"cards":[{"header":{"title":"前台web打包通知","subtitle":"${{github.event.head_commit.message}}"},"sections":[{"widgets":[{"textParagraph":{"text":"<b>前台</b>: ${{env.ClientImageName}}:'${GIT_COMMIT}'"}},{"textParagraph":{"text":"<b>後台</b>: ${{env.AmdinImageName}}:'${GIT_COMMIT}'"}},{"buttonList":{"buttons":[{"text":"Read the docs!","onClick":{"openLink":{"url":"https://developers.google.com/chat"}}}]}}]}]}]}'
