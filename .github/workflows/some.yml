@@ -15,3 +15,4 @@ jobs:
       - name: echo
         run: |
           echo ${{ inputs.config-path }}
+          echo ${{ vars.GGC }}
