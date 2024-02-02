@@ -12,7 +12,6 @@ jobs:
     uses: ./.github/workflows/some.yml
     with:
       config-path: .github/labeler.yml
-    secrets: inherit
   test-env:
     runs-on: ubuntu-latest
     steps:
