@@ -14,4 +14,4 @@ jobs:
       - name: echo env
         run: |
           GIT_COMMIT=1234
-          curl -H "Content-Type: application/json" -X POST '${{ secrets.HI }}' -d '{"cardsV2":[{"cardId":"createCardMessage","card":{"cards":[{"header":{"title":"前台web打包通知","subtitle":"${{github.event.head_commit.message}}"},"sections":[{"widgets":[{"textParagraph":{"text":"<b>前台</b>: ${{env.ClientImageName}}:'${GIT_COMMIT}'"}},{"textParagraph":{"text":"<b>後台</b>: ${{env.AmdinImageName}}:'${GIT_COMMIT}'"}},{"buttonList":{"buttons":[{"text":"Read the docs!","onClick":{"openLink":{"url":"https://developers.google.com/chat"}}}]}}]}]}]}}]}'
+          curl -H "Content-Type: application/json" -X POST '${{ secrets.HI }}' -d '{"cardsV2":[{"cardId":"createCardMessage","card":{"header":{"title":"前台web打包通知","subtitle":"${{github.event.head_commit.message}}"},"sections":[{"widgets":[{"textParagraph":{"text":"<b>前台</b>: ${{env.ClientImageName}}:'${GIT_COMMIT}'"}},{"textParagraph":{"text":"<b>後台</b>: ${{env.AmdinImageName}}:'${GIT_COMMIT}'"}},{"buttonList":{"buttons":[{"text":"Read the docs!","onClick":{"openLink":{"url":"https://developers.google.com/chat"}}}]}}]}]}}]}'
