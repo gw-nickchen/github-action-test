@@ -11,7 +11,7 @@ jobs:
   call-resuable:
     uses: ./.github/workflows/some.yml
     with:
-      config-path: .github/labeler.yml
+      config-path: $(git log -n 1 --pretty=format:'%h' --abbrev=10)
   test-env:
     runs-on: ubuntu-latest
     steps:
