@@ -8,6 +8,11 @@ env:
   ClientImageName: "gw-bpsp-client-web"
   AmdinImageName: "gw-bpsp-admin-web"
 jobs:
+  call-resuable:
+    uses: ./.github/workflows/some.yml
+    with:
+      config-path: .github/labeler.yml
+    secrets: inherit
   test-env:
     runs-on: ubuntu-latest
     steps:
