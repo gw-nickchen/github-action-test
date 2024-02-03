@@ -20,9 +20,9 @@ jobs:
       # To use this repository's private action,
       # you must check out the repository
       - name: Checkout
-        uses: gw-nickchen/google-chat-notification@v1.2
+        uses: actions/checkout@v4
       - name: Hello world action step
-        uses: ./ # Uses an action in the root directory
+        uses: gw-nickchen/google-chat-notification@v1.2
         id: hello
         with:
           who-to-greet: "Mona the Octocat"
