@@ -23,25 +23,42 @@ env:
 #     uses: ./.github/workflows/some.yml
 #     with:
 #       config-path: ${{ needs.get-commit-hash.outputs.commitHash }}
-
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest
     name: A job to say hello
+    outputs:
+      output1: ${{ steps.get_commit_hash.outputs.commitHash }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: get commit hash
         id: get_commit_hash
         run: echo "commitHash=$(git log -n 1 --pretty=format:'%h' --abbrev=10)" >> "$GITHUB_OUTPUT"
+  run:
+    runs-on: ubuntu-latest
+    name: Hello world action step
+    steps:
       - name: Hello world action step
-        uses: gw-nickchen/google-chat-notification@v1.3
-        id: hello
-        with:
-          api-url: ${{ secrets.GOOGLE_CHAT_BOT_API_URL }}
-          title: 前端打包完成
-          subtitle: ${{github.event.head_commit.message}}
-          contents: |
-            <b>前台</b>: ${{env.ClientImageName}}:${{ steps.get_commit_hash.outputs.commitHash }}
-            <b>後台</b>: ${{env.ClientImageName}}:${{ steps.get_commit_hash.outputs.commitHash }}
-          action-page: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: echo ${{ needs.hello_world_job.outputs.output1 }}
+# jobs:
+#   hello_world_job:
+#     runs-on: ubuntu-latest
+#     name: A job to say hello
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
+#       - name: get commit hash
+#         id: get_commit_hash
+#         run: echo "commitHash=$(git log -n 1 --pretty=format:'%h' --abbrev=10)" >> "$GITHUB_OUTPUT"
+#       - name: Hello world action step
+#         uses: gw-nickchen/google-chat-notification@v1.3
+#         id: hello
+#         with:
+#           api-url: ${{ secrets.GOOGLE_CHAT_BOT_API_URL }}
+#           title: 前端打包完成
+#           subtitle: ${{github.event.head_commit.message}}
+#           contents: |
+#             <b>前台</b>: ${{env.ClientImageName}}:${{ steps.get_commit_hash.outputs.commitHash }}
+#             <b>後台</b>: ${{env.ClientImageName}}:${{ steps.get_commit_hash.outputs.commitHash }}
+#           action-page: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
