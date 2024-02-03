@@ -26,9 +26,9 @@ jobs:
         id: hello
         with:
           api-url: ${{ secrets.GOOGLE_CHAT_BOT_API_URL }}
-          title: 前端打包完成
-          subtitle: "feat: test"
+          title: $(git log -n 1 --pretty=format:'%h' --abbrev=10)
+          subtitle: ${{github.event.head_commit.message}}
           contents: |
             <b>前台</b>: ${{env.ClientImageName}}:$(git log -n 1 --pretty=format:'%h' --abbrev=10)
             <b>後台</b>: ${{env.ClientImageName}}:$(git log -n 1 --pretty=format:'%h' --abbrev=10)
-          action-page: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          action-page: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
