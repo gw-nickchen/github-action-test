@@ -39,7 +39,7 @@ jobs:
     needs: hello_world_job
     uses: ./.github/workflows/some.yml
     with:
-      config-path: ${{ needs.get-commit-hash.outputs.commitHash }}
+      config-path: ${{ needs.hello_world_job.outputs.output1 }}
   # run:
   #   runs-on: ubuntu-latest
   #   name: Hello world action step
