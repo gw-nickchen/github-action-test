@@ -15,7 +15,9 @@ jobs:
     steps:
       - name: get commit hash
         id: get_commit_hash
-        run: echo "commitHash=$(git log -n 1 --pretty=format:'%h' --abbrev=10)" >> "$GITHUB_OUTPUT"
+        run: |
+          commitHash=$(git log -n 1 --pretty=format:'%h' --abbrev=10)
+          echo $commitHash >> $GITHUB_OUTPUT
 
   call-resuable:
     uses: ./.github/workflows/some.yml
