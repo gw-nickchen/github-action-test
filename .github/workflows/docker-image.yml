@@ -10,8 +10,8 @@ env:
 jobs:
   get-commit-hash:
     runs-on: ubuntu-latest
-    outputs:
-      commitHash: ${{ steps.get_commit_hash.outputs.commitHash }}
+    # outputs:
+    #   commitHash: ${{ steps.get_commit_hash.outputs.commitHash }}
     steps:
       - name: get commit hash
         id: get_commit_hash
