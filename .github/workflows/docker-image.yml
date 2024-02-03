@@ -29,6 +29,6 @@ jobs:
           title: 前端打包完成
           subtitle: "feat: test"
           contents: |
-            <b>前台</b>: ${{env.ClientImageName}}:'${GIT_COMMIT}
-            <b>後台</b>: ${{env.ClientImageName}}:'${GIT_COMMIT}
+            <b>前台</b>: ${{env.ClientImageName}}:$(git log -n 1 --pretty=format:'%h' --abbrev=10)
+            <b>後台</b>: ${{env.ClientImageName}}:$(git log -n 1 --pretty=format:'%h' --abbrev=10)
           action-page: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
