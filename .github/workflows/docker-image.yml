@@ -19,10 +19,11 @@ jobs:
           commitHash=$(git log -n 1 --pretty=format:'%h' --abbrev=10)
           echo $commitHash >> $GITHUB_OUTPUT
 
-  call-resuable:
-    uses: ./.github/workflows/some.yml
-    with:
-      config-path: ${{ needs.get-commit-hash.outputs.commitHash }}
+  # call-resuable:
+  #   uses: ./.github/workflows/some.yml
+  #   with:
+  #     config-path: ${{ needs.get-commit-hash.outputs.commitHash }}
+
 # jobs:
 #   hello_world_job:
 #     runs-on: ubuntu-latest
