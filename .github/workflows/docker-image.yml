@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - main
-# env:
-#   ClientImageName: "gw-bpsp-client-web"
-#   AmdinImageName: "gw-bpsp-admin-web"
+env:
+  ClientImageName: "gw-bpsp-client-web"
+  AmdinImageName: "gw-bpsp-admin-web"
 # jobs:
 #   call-resuable:
 #     uses: ./.github/workflows/some.yml
@@ -22,10 +22,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Hello world action step
-        uses: gw-nickchen/google-chat-notification@v1.2
+        uses: gw-nickchen/google-chat-notification@v1.3
         id: hello
         with:
-          who-to-greet: "Mona the Octocat"
-      # Use the output from the `hello` step
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+          api-url: ${{ secrets.GOOGLE_CHAT_BOT_API_URL }}
+          title: 前端打包完成
+          subtitle: "feat: test"
+          contents: |
+            <b>前台</b>: ${{env.ClientImageName}}:'${GIT_COMMIT}
+            <b>後台</b>: ${{env.ClientImageName}}:'${GIT_COMMIT}
+          action-page: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
