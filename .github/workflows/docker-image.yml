@@ -35,13 +35,18 @@ jobs:
       - name: get commit hash
         id: get_commit_hash
         run: echo "commitHash=$(git log -n 1 --pretty=format:'%h' --abbrev=10)" >> "$GITHUB_OUTPUT"
-  run:
-    runs-on: ubuntu-latest
-    name: Hello world action step
+  call-resuable:
     needs: hello_world_job
-    steps:
-      - name: Hello world action step
-        run: echo ${{ needs.hello_world_job.outputs.output1 }}
+    uses: ./.github/workflows/some.yml
+    with:
+      config-path: ${{ needs.get-commit-hash.outputs.commitHash }}
+  # run:
+  #   runs-on: ubuntu-latest
+  #   name: Hello world action step
+  #   needs: hello_world_job
+  #   steps:
+  #     - name: Hello world action step
+  #       run: echo ${{ needs.hello_world_job.outputs.output1 }}
 # jobs:
 #   hello_world_job:
 #     runs-on: ubuntu-latest
