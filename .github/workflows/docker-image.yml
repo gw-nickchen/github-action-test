@@ -38,6 +38,7 @@ jobs:
   run:
     runs-on: ubuntu-latest
     name: Hello world action step
+    needs: hello_world_job
     steps:
       - name: Hello world action step
         run: echo ${{ needs.hello_world_job.outputs.output1 }}
