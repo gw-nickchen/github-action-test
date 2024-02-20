@@ -1,0 +1,16 @@
+name: trigger by user
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: "Name of the person to greet"
+        required: true
+        default: "Mona the Octocat"
+jobs:
+  say_hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo
+        run: |
+          echo Hi ${{ inputs.name }} !!
