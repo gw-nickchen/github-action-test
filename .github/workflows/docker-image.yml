@@ -7,7 +7,7 @@ on:
     types: "closed"
     paths-ignore:
       - "**.yml"
-      - "README.md"
+      - "**/README.md"
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest
