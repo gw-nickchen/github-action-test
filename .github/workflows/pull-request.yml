@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v4
       - name: echo env
         run: |
-          curl -H "Content-Type: application/json" -X POST '${{ secrets.GOOGLE_CHAT_BOT_API_URL }}' -d '{"cardsV2":[{"cardId":"createCardMessage","card":{"header":{"title":"前台web打包通知","subtitle":"${{github.event.pull_request.title}}"},"sections":[{"widgets":[{"textParagraph":{"text":"<b>前台</b>: <https://example.com|Example website>"}},{"textParagraph":{"text":"<b>後台</b>: hi2"}},{"buttonList":{"buttons":[{"text":"github action","onClick":{"openLink":{"url":"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"}}}]}}]}]}}]}'
+          curl -H "Content-Type: application/json" -X POST '${{ secrets.GOOGLE_CHAT_BOT_API_URL }}' -d '{"cardsV2":[{"cardId":"createCardMessage","card":{"header":{"title":"前台web打包通知","subtitle":"${{github.event.pull_request.title}}"},"sections":[{"widgets":[{"textParagraph":{"text":"<b>前台</b>: <a href=https://developers.google.com/apps-script/add-ons/concepts/widgets#text_formatting>this doc</a>"}},{"textParagraph":{"text":"<b>後台</b>: hi2"}},{"buttonList":{"buttons":[{"text":"github action","onClick":{"openLink":{"url":"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"}}}]}}]}]}}]}'
       # - name: send message
       #   uses: gw-nickchen/google-chat-notification@v1
       #   with:
