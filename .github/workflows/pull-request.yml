@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - main
-    types: "closed"
+    # types: "closed"
 jobs:
   send_message:
     runs-on: ubuntu-latest
@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: echo something
+        run: echo ${{github.event.pull_request.commits_url}}
       - name: send message
         uses: gw-nickchen/google-chat-notification@v1
         with:
