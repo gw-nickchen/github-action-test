@@ -13,14 +13,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: echo something
-        run: echo ${{github.event.pull_request.commits_url}}
-      - name: send message
-        uses: gw-nickchen/google-chat-notification@v1
-        with:
-          api-url: ${{ secrets.GOOGLE_CHAT_BOT_API_URL }}
-          title: 前端 bpsp web 打包完成通知
-          subtitle: ${{github.event.pull_request.title}}
-          contents: |
-            <b>前台</b>: hi
-            <b>後台</b>: hello
-          action-page: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: echo ${{github.event.pull_request.commits}}
+      # - name: send message
+      #   uses: gw-nickchen/google-chat-notification@v1
+      #   with:
+      #     api-url: ${{ secrets.GOOGLE_CHAT_BOT_API_URL }}
+      #     title: 前端 bpsp web 打包完成通知
+      #     subtitle: ${{github.event.pull_request.title}}
+      #     contents: |
+      #       <b>前台</b>: hi
+      #       <b>後台</b>: hello
+      #     action-page: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
