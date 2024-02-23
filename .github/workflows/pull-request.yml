@@ -1,0 +1,24 @@
+name: Test github action on pull request
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: "closed"
+jobs:
+  send_message:
+    runs-on: ubuntu-latest
+    name: send google chat message
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: send message
+        uses: gw-nickchen/google-chat-notification@v1
+        with:
+          api-url: ${{ secrets.GOOGLE_CHAT_BOT_API_URL }}
+          title: 前端 bpsp web 打包完成通知
+          subtitle: ${{github.event.pull_request.title}}
+          contents: |
+            <b>前台</b>: hi
+            <b>後台</b>: hello
+          action-page: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

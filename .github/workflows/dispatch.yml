@@ -3,10 +3,35 @@ name: trigger by user
 on:
   workflow_dispatch:
     inputs:
-      name:
-        description: "Name of the person to greet"
+      image-name:
+        description: "Name of the image to build"
         required: true
-        default: "Mona the Octocat"
+        type: string
+      source-path:
+        description: "Path to the source code"
+        required: true
+        type: choice
+        options:
+          - ./apps/admin-site/Dockerfile
+          - ./apps/client-site/Dockerfile
+      dockerhub:
+        description: "Dockerhub registry"
+        required: true
+        default: ${{ github.event.inputs.stage || 'staging' }}
+  workflow_call:
+    inputs:
+      image-name:
+        description: "Name of the image to build"
+        required: true
+        type: string
+      source-path:
+        description: "Path to the source code"
+        required: true
+        type: string
+      dockerhub:
+        description: "Dockerhub registry"
+        required: true
+        type: string
 jobs:
   say_hello:
     runs-on: ubuntu-latest
