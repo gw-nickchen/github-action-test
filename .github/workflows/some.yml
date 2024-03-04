@@ -20,10 +20,10 @@ jobs:
       - name: echo 2
         id: echo2
         run: |
-          echo ${{ inputs.config-path }}
+          echo "imageName2=myApp:${{ inputs.config-path }}" >> $GITHUB_OUTPUT
           echo "imageName=myApp:${{ steps.echo1.outputs.commitHash2 }}" >> $GITHUB_OUTPUT
       - name: echo 3
         id: echo3
         run: |
-          echo ${{ inputs.config-path }}
+          echo ${{ steps.echo2.outputs.imageName2 }}
           echo ${{ steps.echo2.outputs.imageName }}
