@@ -6,10 +6,20 @@ on:
       - main
     # types: "closed"
 jobs:
+  get-git-commit-hash:
+    runs-on: ubuntu-latest
+    outputs:
+      commitHash: ${{ steps.get_commit_hash.outputs.commitHash }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set git commit hash
+        id: get_commit_hash
+        run: echo "commitHash=$(git log -n 1 --pretty=format:'%h' --abbrev=10)" >> $GITHUB_OUTPUT
   test:
+    needs: get-git-commit-hash
     uses: "./.github/workflows/some.yml"
     with:
-      config-path: "hi"
+      config-path: ${{ needs.get-git-commit-hash.outputs.commitHash }}
 
   # send_message:
   #   runs-on: ubuntu-latest

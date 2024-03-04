@@ -15,4 +15,4 @@ jobs:
       - name: echo
         run: |
           echo ${{ inputs.config-path }}
-          echo "commitHash=$(git log -n 1 --pretty=format:'%h' --abbrev=10)" >> $GITHUB_OUTPUT
+          echo ${{ github.sha }}
