@@ -16,7 +16,7 @@ jobs:
         id: echo1
         run: |
           echo ${{ inputs.config-path }}
-          echo "commitHash2=${{ github.sha }}" >> $GITHUB_OUTPUT
+          echo "commitHash2=${{ github.sha }} | cut -c 1-10" >> $GITHUB_OUTPUT
       - name: echo 2
         id: echo2
         run: |
