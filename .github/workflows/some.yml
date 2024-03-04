@@ -15,4 +15,4 @@ jobs:
       - name: echo
         run: |
           echo ${{ inputs.config-path }}
-          echo ${{ github.sha }}
+          echo ${{ github.sha }} | cut -c 1-10
