@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       commitHash: ${{ steps.get_commit_hash.outputs.commitHash }}
+      environment: ${{ github.base_ref == 'main' && 'prod' || 'uat' }}
     steps:
       - uses: actions/checkout@v4
       # - name: Get current tag
@@ -26,7 +27,7 @@ jobs:
     needs: get-git-commit-hash
     uses: "./.github/workflows/some.yml"
     with:
-      config-path: $SOME_ENV
+      config-path: ${{ needs.get-git-commit-hash.outputs.environment }}
   # echo:
   #   runs-on: ubuntu-latest
   #   name: echo
