@@ -6,28 +6,29 @@ on:
       - main
     # types: "closed"
 jobs:
-  get-git-commit-hash:
-    runs-on: ubuntu-latest
-    outputs:
-      commitHash: ${{ steps.get_commit_hash.outputs.commitHash }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set git commit hash
-        id: get_commit_hash
-        run: echo "commitHash=${{ github.sha }} | cut -c 1-10" >> $GITHUB_OUTPUT
-  test:
-    needs: get-git-commit-hash
-    uses: "./.github/workflows/some.yml"
-    with:
-      config-path: ${{ needs.get-git-commit-hash.outputs.commitHash }}
-  # echo:
+  # get-git-commit-hash:
   #   runs-on: ubuntu-latest
-  #   name: echo
+  #   outputs:
+  #     commitHash: ${{ steps.get_commit_hash.outputs.commitHash }}
   #   steps:
-  #     - name: echo
-  #       run: |
-  #         echo ${{ github.ref }}
-  #         echo ${{ github.event.pull_request. }}
+  #     - uses: actions/checkout@v4
+  #     - name: Set git commit hash
+  #       id: get_commit_hash
+  #       run: echo "commitHash=${{ github.sha }} | cut -c 1-10" >> $GITHUB_OUTPUT
+  # test:
+  #   needs: get-git-commit-hash
+  #   uses: "./.github/workflows/some.yml"
+  #   with:
+  #     config-path: ${{ needs.get-git-commit-hash.outputs.commitHash }}
+  echo:
+    runs-on: ubuntu-latest
+    name: echo
+    steps:
+      - name: echo
+        run: |
+          echo ${{ github.ref }}
+          echo ${{ github.base_ref }}
+          echo ${{ github.head_ref }}
   # send_message:
   #   runs-on: ubuntu-latest
   #   name: send google chat message
