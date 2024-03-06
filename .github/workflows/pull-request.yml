@@ -5,35 +5,38 @@ on:
     branches:
       - main
     # types: "closed"
+env:
+  SOME_ENV: "some env"
 jobs:
-  get-git-commit-hash:
-    runs-on: ubuntu-latest
-    outputs:
-      commitHash: ${{ steps.get_commit_hash.outputs.commitHash }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Get current tag
-        id: get-current-tag
-        uses: zingimmick/github-action-get-current-tag@v1
-      - name: Print tag
-        run: echo ${{steps.get-current-tag.outputs.tag}}
-      - name: Set git commit hash
-        id: get_commit_hash
-        run: echo "commitHash=$(git describe --abbrev=0)" >> $GITHUB_OUTPUT
-  test:
-    needs: get-git-commit-hash
-    uses: "./.github/workflows/some.yml"
-    with:
-      config-path: ${{ needs.get-git-commit-hash.outputs.commitHash }}
-  # echo:
+  # get-git-commit-hash:
   #   runs-on: ubuntu-latest
-  #   name: echo
+  #   outputs:
+  #     commitHash: ${{ steps.get_commit_hash.outputs.commitHash }}
   #   steps:
-  #     - name: echo
-  #       run: |
-  #         echo ${{ github.ref }}
-  #         echo ${{ github.base_ref }}
-  #         echo ${{ github.head_ref }}
+  #     - uses: actions/checkout@v4
+  #     - name: Get current tag
+  #       id: get-current-tag
+  #       uses: zingimmick/github-action-get-current-tag@v1
+  #     - name: Print tag
+  #       run: echo ${{steps.get-current-tag.outputs.tag}}
+  #     - name: Set git commit hash
+  #       id: get_commit_hash
+  #       run: echo "commitHash=$(git describe --abbrev=0)" >> $GITHUB_OUTPUT
+  # test:
+  #   needs: get-git-commit-hash
+  #   uses: "./.github/workflows/some.yml"
+  #   with:
+  #     config-path: ${{ needs.get-git-commit-hash.outputs.commitHash }}
+  echo:
+    runs-on: ubuntu-latest
+    name: echo
+    steps:
+      - name: echo
+        run: |
+          echo ${{ github.ref }}
+          echo ${{ github.base_ref }}
+          echo ${{ github.head_ref }}
+          echo $SOME_ENV
   # send_message:
   #   runs-on: ubuntu-latest
   #   name: send google chat message
