@@ -13,6 +13,11 @@ jobs:
       commitHash: ${{ steps.get_commit_hash.outputs.commitHash }}
     steps:
       - uses: actions/checkout@v4
+      - name: Get current tag
+        id: get-current-tag
+        uses: zingimmick/github-action-get-current-tag@v1
+      - name: Print tag
+        run: echo ${{steps.get-current-tag.outputs.tag}}
       - name: Set git commit hash
         id: get_commit_hash
         run: echo "commitHash=$(git describe --abbrev=0)" >> $GITHUB_OUTPUT
