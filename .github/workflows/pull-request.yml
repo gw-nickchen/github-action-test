@@ -59,6 +59,7 @@ jobs:
       - name: echo
         run: |
           echo ${{ needs.get_tag.outputs.IMAGE_TAG }}
+          echo ${{ github.event.head_commit.message }}
   # send_message:
   #   runs-on: ubuntu-latest
   #   name: send google chat message
