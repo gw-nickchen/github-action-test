@@ -37,6 +37,7 @@ jobs:
           echo ${{ github.head_ref }}
           echo ${{ github.ref_name }}
           echo ${{ github.ref_type }}
+          echo ${{ github.ref_type }}
   # send_message:
   #   runs-on: ubuntu-latest
   #   name: send google chat message
