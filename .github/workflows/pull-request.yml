@@ -68,17 +68,28 @@ jobs:
   #         else
   #             echo "IMAGE_TAG=$(git log -n 1 --pretty=format:'%h' --abbrev=10)" >> $GITHUB_OUTPUT
   #         fi
-  release:
+  var-setup:
     runs-on: ubuntu-latest
-    name: release
+    outputs:
+      image-tag: ${{ steps.get-tag.outputs.image-tag }}
+      api-env: ${{ steps.get-tag.outputs.api-env }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup tag name
         id: get-tag
         uses: ./.github/workflows/actions/getTag
+      - name: Set up API env
+        run: |
+          echo "api-env=${{ github.ref_type == 'tag' && 'prod' || 'uat' }}" >> $GITHUB_OUTPUT
+  release:
+    needs: var-setup
+    runs-on: ubuntu-latest
+    name: release
+    steps:
       - name: echo
         run: |
-          echo ${{ steps.get-tag.outputs.image-tag }}
+          echo ${{ needs.var-setup.outputs.api-env }}
+          echo ${{ needs.var-setup.outputs.image-tag }}
   # send_message:
   #   runs-on: ubuntu-latest
   #   name: send google chat message
