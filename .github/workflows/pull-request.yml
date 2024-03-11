@@ -2,6 +2,8 @@ name: Test github action on pull request
 
 on:
   push:
+    tags:
+      - "*"
     branches:
       - main
     # types: "closed"
