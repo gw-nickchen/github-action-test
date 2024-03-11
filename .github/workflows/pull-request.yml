@@ -41,8 +41,8 @@ jobs:
           echo ${{ github.head_ref }}
           echo ${{ github.ref_name }}
           echo ${{ github.ref_type }}
-
-          if [ "${{ github.ref_type }}" = "tag" ]; then
+          TYPE = ${{ github.ref_type }}
+          if [ "$TYPE" = "tag" ]; then
               echo "IMAGE_TAG=${{ github.ref_name }}" >> $GITHUB_ENV
           else
               echo "IMAGE_TAG=$(git log -n 1 --pretty=format:'%h' --abbrev=10)" >> $GITHUB_ENV
