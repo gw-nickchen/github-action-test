@@ -80,7 +80,12 @@ jobs:
         uses: ./.github/workflows/actions/getTag
       - name: Set up API env
         run: |
-          echo "api-env=${{ github.ref_type == 'tag' && 'prod' || 'uat' }}" >> $GITHUB_OUTPUT
+          echo "current push ref type: ${{ github.ref_type }}"
+          if [ "${{ github.ref_type }}" = "tag" ]; then
+              echo "api-env=prod" >> $GITHUB_OUTPUT
+          else
+              echo "api-env=uat" >> $GITHUB_OUTPUT
+          fi
   release:
     needs: var-setup
     runs-on: ubuntu-latest
