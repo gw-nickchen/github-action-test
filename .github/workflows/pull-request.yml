@@ -75,7 +75,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup tag name
         id: get-tag
-        uses: ./.github/workflows/getTag
+        uses: ./.github/workflows/actions/getTag.yml
       - name: echo
         run: |
           echo ${{ steps.get-tag.outputs.image-tag }}
