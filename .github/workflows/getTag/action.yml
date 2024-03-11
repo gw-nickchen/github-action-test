@@ -15,6 +15,7 @@ runs:
   using: "composite"
   steps:
     - name: Set up docker image tag
+      shell: bash
       id: get-tag
       run: |
         echo "current push ref type: ${{ github.ref_type }}"
