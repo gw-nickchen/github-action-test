@@ -28,12 +28,12 @@ jobs:
   #   uses: "./.github/workflows/some.yml"
   #   with:
   #     config-path: ${{ needs.get-git-commit-hash.outputs.environment }}
-  echo:
+  get_tag:
     runs-on: ubuntu-latest
     name: echo
+    # outputs:
+    #   commitHash: ${{ steps.get_tag.outputs.commitHash }}
     steps:
-      - name: Set env
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: echo
         run: |
           echo ${{ github.ref }}
@@ -41,14 +41,20 @@ jobs:
           echo ${{ github.head_ref }}
           echo ${{ github.ref_name }}
           echo ${{ github.ref_type }}
-          echo $RELEASE_VERSION
-          echo ${{ env.RELEASE_VERSION }}
 
           if [ "${{ github.ref_type }}" = "tag" ]; then
-              echo "this is tag"
+              echo "IMAGE_TAG=${{ github.ref_name }}" >> $GITHUB_ENV
           else
-              echo "this is branch"
+              echo "IMAGE_TAG=$(git log -n 1 --pretty=format:'%h' --abbrev=10)" >> $GITHUB_ENV
           fi
+  release:
+    runs-on: ubuntu-latest
+    needs: get_tag
+    name: release
+    steps:
+      - name: echo
+        run: |
+          echo ${{ env.IMAGE_TAG }}
   # send_message:
   #   runs-on: ubuntu-latest
   #   name: send google chat message
