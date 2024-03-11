@@ -72,20 +72,16 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       image-tag: ${{ steps.get-tag.outputs.image-tag }}
-      api-env: ${{ steps.get-tag.outputs.api-env }}
+      api-env: ${{ steps.get-env.outputs.api-env }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup tag name
         id: get-tag
         uses: ./.github/workflows/actions/getTag
       - name: Set up API env
+        id: get-env
         run: |
-          echo "current push ref type: ${{ github.ref_type }}"
-          if [ "${{ github.ref_type }}" = "tag" ]; then
-              echo "api-env=prod" >> $GITHUB_OUTPUT
-          else
-              echo "api-env=uat" >> $GITHUB_OUTPUT
-          fi
+          echo "api-env=${{ github.ref_type == 'tag' && 'prod' || 'uat' }}" >> $GITHUB_OUTPUT
   release:
     needs: var-setup
     runs-on: ubuntu-latest
