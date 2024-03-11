@@ -44,6 +44,12 @@ jobs:
           echo ${{ github.ref_type }}
           echo $RELEASE_VERSION
           echo ${{ env.RELEASE_VERSION }}
+
+          if [ "${{ github.ref_type }}" = "tag" ]; then
+              echo "this is tag"
+          else
+              echo "this is branch"
+          fi
   # send_message:
   #   runs-on: ubuntu-latest
   #   name: send google chat message
