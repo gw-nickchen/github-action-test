@@ -41,7 +41,6 @@ jobs:
           echo ${{ github.head_ref }}
           echo ${{ github.ref_name }}
           echo ${{ github.ref_type }}
-          echo ${{ github.ref_type }}
           echo $RELEASE_VERSION
           echo ${{ env.RELEASE_VERSION }}
 
