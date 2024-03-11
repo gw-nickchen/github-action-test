@@ -30,21 +30,23 @@ jobs:
   #   uses: "./.github/workflows/some.yml"
   #   with:
   #     config-path: ${{ needs.get-git-commit-hash.outputs.environment }}
-  get-image-tag:
-    runs-on: ubuntu-latest
-    outputs:
-      image-tag: ${{ steps.get-tag.outputs.image-tag }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set git commit hash
-        id: get-tag
-        run: |
-          echo "current push ref type: ${{ github.ref_type }}"
-          if [ "${{ github.ref_type }}" = "tag" ]; then
-              echo "image-tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
-          else
-              echo "image-tag=$(git log -n 1 --pretty=format:'%h' --abbrev=10)" >> $GITHUB_OUTPUT
-          fi
+
+  # get-image-tag:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     image-tag: ${{ steps.get-tag.outputs.image-tag }}
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Set git commit hash
+  #       id: get-tag
+  #       run: |
+  #         echo "current push ref type: ${{ github.ref_type }}"
+  #         if [ "${{ github.ref_type }}" = "tag" ]; then
+  #             echo "image-tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+  #         else
+  #             echo "image-tag=$(git log -n 1 --pretty=format:'%h' --abbrev=10)" >> $GITHUB_OUTPUT
+  #         fi
+
   # get_tag:
   #   runs-on: ubuntu-latest
   #   name: echo
@@ -68,13 +70,14 @@ jobs:
   #         fi
   release:
     runs-on: ubuntu-latest
-    needs: get-image-tag
     name: release
     steps:
+      - name: Setup tag name
+        id: get-tag
+        uses: ./.github/workflows/getTag
       - name: echo
         run: |
-          echo ${{ needs.get-image-tag.outputs.image-tag }}
-          echo ${{ github.event.head_commit.message }}
+          echo ${{ steps.get-tag.outputs.image-tag }}
   # send_message:
   #   runs-on: ubuntu-latest
   #   name: send google chat message

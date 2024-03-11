@@ -1,4 +1,5 @@
-name: Get Current Tag
+name: eGt Current Tag
+
 description: Get current tag name from `github.ref` environment variable
 
 branding:
@@ -6,22 +7,20 @@ branding:
   color: blue
 
 outputs:
-  tag:
+  image-tag:
     description: Tag name
-    value: ${{ steps.get-current-tag.outputs.tag }}
+    value: ${{ steps.get-tag.outputs.image-tag }}
 
 runs:
   using: "composite"
   steps:
-    - name: Check ref
-      shell: bash
+    - uses: actions/checkout@v4
+    - name: Set up docker image tag
+      id: get-tag
       run: |
-        if [[ "${{ github.ref }}" != "refs/tags/"* ]]; then
-          echo "::error::Not a tag ref ${{ github.ref }}"
-          exit 1
+        echo "current push ref type: ${{ github.ref_type }}"
+        if [ "${{ github.ref_type }}" = "tag" ]; then
+            echo "image-tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+        else
+            echo "image-tag=$(git log -n 1 --pretty=format:'%h' --abbrev=10)" >> $GITHUB_OUTPUT
         fi
-
-    - name: Determine tag
-      id: get-current-tag
-      shell: bash
-      run: echo "::set-output name=tag::$(echo ${{ github.ref }} | sed -e 's,.*/\(.*\),\1,')"
