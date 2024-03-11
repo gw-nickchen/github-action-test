@@ -33,10 +33,11 @@ jobs:
   get_tag:
     runs-on: ubuntu-latest
     name: echo
-    # outputs:
-    #   commitHash: ${{ steps.get_tag.outputs.commitHash }}
+    outputs:
+      IMAGE_TAG: ${{ steps.get_tag.outputs.IMAGE_TAG }}
     steps:
       - name: echo
+        id: get_tag
         run: |
           # echo ${{ github.ref }}
           # echo ${{ github.base_ref }}
@@ -46,9 +47,9 @@ jobs:
           # TYPE = ${{ github.ref_type }}
           echo ${{ env.IS_TAG }}
           if [ "${{ github.ref_type }}" = "tag" ]; then
-              echo "IMAGE_TAG=${{ github.ref_name }}" >> $GITHUB_ENV
+              echo "IMAGE_TAG=${{ github.ref_name }}" >> $GITHUB_OUTPUT
           else
-              echo "IMAGE_TAG=$(git log -n 1 --pretty=format:'%h' --abbrev=10)" >> $GITHUB_ENV
+              echo "IMAGE_TAG=$(git log -n 1 --pretty=format:'%h' --abbrev=10)" >> $GITHUB_OUTPUT
           fi
   release:
     runs-on: ubuntu-latest
@@ -57,7 +58,7 @@ jobs:
     steps:
       - name: echo
         run: |
-          echo ${{ env.IMAGE_TAG }}
+          echo ${{ needs.get_tag.outputs.IMAGE_TAG }}
   # send_message:
   #   runs-on: ubuntu-latest
   #   name: send google chat message
