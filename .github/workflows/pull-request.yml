@@ -48,3 +48,7 @@ jobs:
           dockerfile-path: dockerfile-path
           dockerhub: dockerhub
           environment: environment
+  reuse:
+    uses: ./.github/workflows/some.yml
+    with:
+      config-path: 1234

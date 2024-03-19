@@ -13,17 +13,21 @@ jobs:
     environment: production
     steps:
       - name: echo
-        id: echo1
         run: |
           echo someApp:${{ inputs.config-path }}
-          echo "commitHash2=${{ github.sha }} | cut -c 1-10" >> $GITHUB_OUTPUT
-      - name: echo 2
-        id: echo2
-        run: |
-          echo "imageName2=myApp:${{ inputs.config-path }}" >> $GITHUB_OUTPUT
-          echo "imageName=myApp:${{ steps.echo1.outputs.commitHash2 }}" >> $GITHUB_OUTPUT
-      - name: echo 3
-        id: echo3
-        run: |
-          echo ${{ steps.echo2.outputs.imageName2 }}
-          echo ${{ steps.echo2.outputs.imageName }}
+          echo ${{ vars.GGC }}
+      # - name: echo
+      #   id: echo1
+      #   run: |
+      #     echo someApp:${{ inputs.config-path }}
+      #     echo "commitHash2=${{ github.sha }} | cut -c 1-10" >> $GITHUB_OUTPUT
+      # - name: echo 2
+      #   id: echo2
+      #   run: |
+      #     echo "imageName2=myApp:${{ inputs.config-path }}" >> $GITHUB_OUTPUT
+      #     echo "imageName=myApp:${{ steps.echo1.outputs.commitHash2 }}" >> $GITHUB_OUTPUT
+      # - name: echo 3
+      #   id: echo3
+      #   run: |
+      #     echo ${{ steps.echo2.outputs.imageName2 }}
+      #     echo ${{ steps.echo2.outputs.imageName }}
