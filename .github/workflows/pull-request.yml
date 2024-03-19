@@ -10,103 +10,35 @@ on:
 env:
   IS_TAG: ${{ github.ref_type == 'tag' }}
 jobs:
-  # get-git-commit-hash:
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     commitHash: ${{ steps.get_commit_hash.outputs.commitHash }}
-  #     environment: ${{ github.base_ref == 'main' && 'prod' || 'uat' }}
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     # - name: Get current tag
-  #     #   id: get-current-tag
-  #     #   uses: zingimmick/github-action-get-current-tag@v1
-  #     # - name: Print tag
-  #     #   run: echo ${{steps.get-current-tag.outputs.tag}}
-  #     - name: Set git commit hash
-  #       id: get_commit_hash
-  #       run: echo "commitHash=$(git describe --abbrev=0)" >> $GITHUB_OUTPUT
-  # test:
-  #   needs: get-git-commit-hash
-  #   uses: "./.github/workflows/some.yml"
-  #   with:
-  #     config-path: ${{ needs.get-git-commit-hash.outputs.environment }}
-
-  # get-image-tag:
+  # var-setup:
   #   runs-on: ubuntu-latest
   #   outputs:
   #     image-tag: ${{ steps.get-tag.outputs.image-tag }}
+  #     api-env: ${{ steps.get-env.outputs.api-env }}
   #   steps:
   #     - uses: actions/checkout@v4
-  #     - name: Set git commit hash
+  #     - name: Setup tag name
   #       id: get-tag
+  #       uses: ./.github/workflows/actions/getTag
+  #     - name: Set up API env
+  #       id: get-env
   #       run: |
-  #         echo "current push ref type: ${{ github.ref_type }}"
-  #         if [ "${{ github.ref_type }}" = "tag" ]; then
-  #             echo "image-tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
-  #         else
-  #             echo "image-tag=$(git log -n 1 --pretty=format:'%h' --abbrev=10)" >> $GITHUB_OUTPUT
-  #         fi
-
-  # get_tag:
+  #         echo "api-env=${{ github.ref_type == 'tag' && 'prod' || 'uat' }}" >> $GITHUB_OUTPUT
+  # release:
+  #   needs: var-setup
   #   runs-on: ubuntu-latest
-  #   name: echo
-  #   outputs:
-  #     IMAGE_TAG: ${{ steps.get_tag.outputs.IMAGE_TAG }}
+  #   name: release
   #   steps:
   #     - name: echo
-  #       id: get_tag
   #       run: |
-  #         # echo ${{ github.ref }}
-  #         # echo ${{ github.base_ref }}
-  #         # echo ${{ github.head_ref }}
-  #         # echo ${{ github.ref_name }}
-  #         # echo ${{ github.ref_type }}
-  #         # TYPE = ${{ github.ref_type }}
-  #         echo ${{ env.IS_TAG }}
-  #         if [ "${{ github.ref_type }}" = "tag" ]; then
-  #             echo "IMAGE_TAG=${{ github.ref_name }}" >> $GITHUB_OUTPUT
-  #         else
-  #             echo "IMAGE_TAG=$(git log -n 1 --pretty=format:'%h' --abbrev=10)" >> $GITHUB_OUTPUT
-  #         fi
-  var-setup:
+  #         echo ${{ needs.var-setup.outputs.api-env }}
+  #         echo ${{ needs.var-setup.outputs.image-tag }}
+  my-job:
     runs-on: ubuntu-latest
-    outputs:
-      image-tag: ${{ steps.get-tag.outputs.image-tag }}
-      api-env: ${{ steps.get-env.outputs.api-env }}
+    env:
+      IMAGE_NAME: "1234"
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup tag name
-        id: get-tag
-        uses: ./.github/workflows/actions/getTag
-      - name: Set up API env
-        id: get-env
-        run: |
-          echo "api-env=${{ github.ref_type == 'tag' && 'prod' || 'uat' }}" >> $GITHUB_OUTPUT
-  release:
-    needs: var-setup
-    runs-on: ubuntu-latest
-    name: release
-    steps:
-      - name: echo
-        run: |
-          echo ${{ needs.var-setup.outputs.api-env }}
-          echo ${{ needs.var-setup.outputs.image-tag }}
-  # send_message:
-  #   runs-on: ubuntu-latest
-  #   name: send google chat message
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
-  #     - name: echo env
-  #       run: |
-  #         curl -H "Content-Type: application/json" -X POST '${{ secrets.GOOGLE_CHAT_BOT_API_URL }}' -d '{"cardsV2":[{"cardId":"createCardMessage","card":{"header":{"title":"前台web打包通知","subtitle":"${{github.event.pull_request.title}}"},"sections":[{"widgets":[{"textParagraph":{"text":"<b>前台</b>: <a href=https://developers.google.com/apps-script/add-ons/concepts/widgets#text_formatting>this doc</a>"}},{"textParagraph":{"text":"<b>後台</b>: hi2"}},{"buttonList":{"buttons":[{"text":"github action","onClick":{"openLink":{"url":"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"}}}]}}]}]}}]}'
-  # - name: send message
-  #   uses: gw-nickchen/google-chat-notification@v1
-  #   with:
-  #     api-url: ${{ secrets.GOOGLE_CHAT_BOT_API_URL }}
-  #     title: 前端 bpsp web 打包完成通知
-  #     subtitle: ${{github.event.pull_request.title}}
-  #     contents: |
-  #       <b>前台</b>: hi
-  #       <b>後台</b>: hello
-  #     action-page: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use action
+        uses: ./.github/workflows/actions/build-image

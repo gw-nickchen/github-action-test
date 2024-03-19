@@ -1,0 +1,38 @@
+name: build web image
+
+description: Build web image and push to registry
+
+inputs:
+  image-name:
+    description: 'Name of the image to build'
+    required: true
+    type: string
+  tag:
+    description: 'Tag of the image to build'
+    required: true
+    type: string
+  dockerfile-path:
+    description: 'Path to the Dockerfile to build'
+    required: true
+    type: string
+  dockerhub:
+    description: 'Dockerhub registry'
+    required: true
+    type: string
+  environment:
+    description: 'environment to build image for'
+    required: true
+    type: string
+    default: uat
+
+runs:
+  using: 'composite'
+  steps:
+    - name: echo inputs
+        run: |
+          echo image-name: ${{ inputs.image-name }}
+          echo tag: ${{ inputs.tag }}
+          echo dockerfile-path: ${{ inputs.dockerfile-path }}
+          echo dockerhub: ${{ inputs.dockerhub }}
+          echo environment: ${{ inputs.environment }}
+          echo image: ${{ env.IMAGE_NAME }}
