@@ -42,3 +42,9 @@ jobs:
         uses: actions/checkout@v4
       - name: Use action
         uses: ./.github/workflows/actions/build-image
+        with:
+          image-name: image-name
+          tag: tag
+          dockerfile-path: dockerfile-path
+          dockerhub: dockerhub
+          environment: environment
