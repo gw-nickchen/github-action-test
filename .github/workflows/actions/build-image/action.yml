@@ -24,6 +24,7 @@ runs:
   using: "composite"
   steps:
     - name: echo inputs
+      shell: bash
       run: |
         echo image-name: ${{ inputs.image-name }}
         echo tag: ${{ inputs.tag }}
