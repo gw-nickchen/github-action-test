@@ -1,38 +1,16 @@
 name: Test github action on pull request
 
 on:
-  push:
-    tags:
-      - "*"
+  # push:
+  #   tags:
+  #     - "*"
+  #   branches:
+  #     - main
+  pull_request:
     branches:
       - main
-    # types: "closed"
-env:
-  IS_TAG: ${{ github.ref_type == 'tag' }}
+    types: "closed"
 jobs:
-  # var-setup:
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     image-tag: ${{ steps.get-tag.outputs.image-tag }}
-  #     api-env: ${{ steps.get-env.outputs.api-env }}
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Setup tag name
-  #       id: get-tag
-  #       uses: ./.github/workflows/actions/getTag
-  #     - name: Set up API env
-  #       id: get-env
-  #       run: |
-  #         echo "api-env=${{ github.ref_type == 'tag' && 'prod' || 'uat' }}" >> $GITHUB_OUTPUT
-  # release:
-  #   needs: var-setup
-  #   runs-on: ubuntu-latest
-  #   name: release
-  #   steps:
-  #     - name: echo
-  #       run: |
-  #         echo ${{ needs.var-setup.outputs.api-env }}
-  #         echo ${{ needs.var-setup.outputs.image-tag }}
   my-job:
     runs-on: ubuntu-latest
     env:
@@ -40,15 +18,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Use action
-        uses: ./.github/workflows/actions/build-image
-        with:
-          image-name: image-name
-          tag: tag
-          dockerfile-path: dockerfile-path
-          dockerhub: dockerhub
-          environment: environment
-  reuse:
-    uses: ./.github/workflows/some.yml
-    with:
-      config-path: 1234
+      - name: echo
+        run: echo "hello"
+      # - name: Use action
+      #   uses: ./.github/workflows/actions/build-image
+      #   with:
+      #     image-name: image-name
+      #     tag: tag
+      #     dockerfile-path: dockerfile-path
+      #     dockerhub: dockerhub
+      #     environment: environment
+  # reuse:
+  #   uses: ./.github/workflows/some.yml
+  #   with:
+  #     config-path: 1234
