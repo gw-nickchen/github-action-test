@@ -17,7 +17,7 @@ on:
       dockerhub:
         description: "Dockerhub registry"
         required: true
-        default: ${{ github.event.inputs.stage || 'staging' }}
+        type: string
   workflow_call:
     inputs:
       image-name:
@@ -38,4 +38,4 @@ jobs:
     steps:
       - name: echo
         run: |
-          echo Hi ${{ inputs.name }} !!
+          echo Hi ${{ github.event.head_commit.message }} !!
