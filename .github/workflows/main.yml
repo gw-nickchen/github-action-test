@@ -1,0 +1,32 @@
+name: test chat
+
+on:
+  workflow_dispatch:
+    inputs:
+      title:
+        required: false
+        type: string
+        default: test title
+      subtitle:
+        required: false
+        type: string
+        default: test subtitle
+      contents:
+        required: true
+        type: string
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notification
+        uses: GatewebSolutions/google-chat-notification@v1
+        with:
+          api-url: ${{ secrets.GOOGLE_CHAT_BOT_API_URL }}
+          title: ${{ inputs.title }}
+          subtitle: ${{ inputs.subTitle }}
+          contents: |
+            <b>contents</b>: ${{ inputs.contents }}
+            <b>備註</b>: <a href=\"https://github.com/GatewebSolutions/gw-vat-web/releases/tag/v1.0.0\">Release Note</a>
+          action-page: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        
